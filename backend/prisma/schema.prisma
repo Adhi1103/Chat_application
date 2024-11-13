@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int      @id @default(autoincrement())  // Auto-incrementing ID
+  username String   @unique                        // Unique username
+  email    String   @unique                        // Unique email
+  password String                                // Password
+  friends  String[]                              // Array of friends (usernames)
+  sent_messages Message[]  @relation("from") 
+  received_messages Message[] @relation("to")                          // One-to-many relation with Message model
+}
+model Message {
+  id        Int    @id @default(autoincrement())   // Auto-incrementing ID
+  content   String                               // Message content
+  createdAt DateTime @default(now())             // Timestamp when the message was created
+  senderName  String                      // Foreign key to User
+  sender    User @relation("from",fields: [senderName], references: [username])
+  sendTo    String
+  recepient User @relation("to",fields: [sendTo],references: [username])
+}

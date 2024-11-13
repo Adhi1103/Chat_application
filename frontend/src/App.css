@@ -1,0 +1,122 @@
+*{
+    margin:0px;
+    padding:0px;
+    box-sizing:border-box;
+    scroll-behavior:smooth;
+
+}
+body{
+    font-family: 'Open Sans', sans-serif;
+   display:flex;
+   flex-direction:column;
+   justify-content:center;
+   align-items:center;
+   background-color:#ebebeb;
+}
+.title{
+    margin:20px 0;
+    text-align:center;
+    
+ 
+
+}
+.main{
+    border:7px solid #dddd;
+    border-radius:20px;
+    overflow:hidden;
+}
+.name{
+display:flex;
+color:#7e7e7e;
+background-color:#ebebeb;
+font-size:32px;
+font-weight:700px;
+padding:8px 16px;
+}
+.user{
+    color:#bbb;
+}
+.input{
+    font-size:24px;
+    font-weight:700;
+    color:#7e7e7e;
+    flex-grow:1;
+    border:none;
+    margin:0px 12px;
+    outline:none;
+    background-color:#ebebeb;
+}
+.message_container{
+display:flex;
+background-color:#f6f6f6;
+flex-direction:column;
+width:400px;
+height:500px;
+overflow-y:scroll;
+overflow-x:hidden;
+}
+.message_received,.message_sent{
+    list-style:none;
+    padding:8px 12px;
+    margin:12px;
+    max-width:250px;
+    word-wrap:break-word;
+    font-size:25px;
+}
+.message_received{
+    border-radius:20px 20px 20px 0px;
+    background-color:	#A9A9A9;
+    align-self:flex-start;
+    box-shadow:-2px 2px 4px #dcdcdc;
+}
+.message_sent{
+    border-radius:20px 20px 0px 20px;
+    background-color:#32a86f;
+    align-self:flex-end;
+    box-shadow:-2px 2px 4px #dcdcdc;
+    color:black;
+}
+.status{
+
+    display:block;
+    font-style:italic;
+    font-size:12px;
+    margin-top:4px;
+}
+.status{
+    font-size:14px;
+    font-style:italic;
+    color:#2d2d2d;
+    text-align:center;
+    padding:0px 16px 16px 16px;
+}
+.input_data{
+    display:flex;
+    justify-content:space-between;
+    width:400px;
+}
+.message_field{
+flex-grow:1;
+height:48px;
+font-size:16px;
+border:none;
+padding:0 12px;
+outline:none;
+background-color:#fff;
+
+}
+.send{
+height:48px;
+font-size:16px;
+border:none;
+padding:0 20px;
+outline:none;
+background-color:#fff;
+cursor:pointer;
+
+}
+.divider{
+    height:48px;
+    width:2px;
+    background-color:#f6f6f6;
+}
