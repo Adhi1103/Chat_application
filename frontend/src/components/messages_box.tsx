@@ -20,7 +20,7 @@ interface Message {
 export const MessageBox = function ({ name }: User) {
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const { sent_message,loading1 } = useSentMessage({ name });
-  const { received_message,loading2 } = useReceivedMessage({ name });
+  const { received_message } = useReceivedMessage({ name });
   const [allMessages, setAllMessages] = useState<Message[]>([]);
   const [sentMessage, setSentMessage] = useState<string>(''); // Input message
 
@@ -111,7 +111,7 @@ if(data.senderName===name){
           { headers: { Authorization: localStorage.getItem("JWT") } }
         );
       
-
+console.log(response)
 
       } catch (error) {
         console.error("Error sending message:", error);

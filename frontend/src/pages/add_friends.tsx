@@ -12,6 +12,7 @@ export const AddFriend=function(){
     const {loading}=useFriends();
     const [users,setUsers]=useState<Users[]>([]);
     const [value,setvalue]=useState("");
+    axios.defaults.withCredentials=true;
 const user=localStorage.getItem("username");
 console.log(user);
         useEffect(function(){

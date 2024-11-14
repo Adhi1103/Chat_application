@@ -9,7 +9,15 @@ import { WebSocketServer,WebSocket } from 'ws'
 dotenv.config();
 
 const app:Express = express();
-app.use(cors());
+const corsOptions = {
+    origin: ['http://localhost:5173'], // Allow both localhost and production URLs
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials:true
+  };
+  
+  app.use(cors(corsOptions)); // Apply the CORS configuration
+  app.options("*",cors())
 const port = process.env.PORT||3000;
 
 // Middleware to parse JSON bodies
