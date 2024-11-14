@@ -1,12 +1,19 @@
 {
     "version": 2,
     "builds": [
-      {"src": "*.js", "use": "@vercel/node"}
+      {
+        "src": "src/index.ts",   
+        "use": "@vercel/node" 
+      }
     ],
     "routes": [
       {
-        "src": "/(.*)",
-        "dest": "/"
+        "src": "/api/(.*)",  
+        "dest": "src/index.ts"
       }
-    ]
+    ],
+    "env": {
+      "CORS_ORIGIN": "https://chat-application-k64c.vercel.app"  
+    }
   }
+  
