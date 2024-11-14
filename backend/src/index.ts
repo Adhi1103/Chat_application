@@ -10,7 +10,7 @@ dotenv.config();
 
 const app:Express = express();
 const corsOptions = {
-    origin: ['http://localhost:5173'], // Allow both localhost and production URLs
+    origin: ["https://chat-application-k64c.vercel.app"], // Allow both localhost and production URLs
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials:true
@@ -24,7 +24,9 @@ const port = process.env.PORT||3000;
 app.use(express.json());
 
 // In express the callback function in express routes we should not use return it is used in hono only 
-
+app.get("/",function(req:Request,res:Response){
+    res.json({message:"Hello"});
+})
 app.post('/api/v1/user/signup', async  function(req: Request, res: Response) {
   const prisma = new PrismaClient();
   

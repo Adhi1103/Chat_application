@@ -13,7 +13,7 @@ const ws_1 = require("ws");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const corsOptions = {
-    origin: ['http://localhost:5173'], // Allow both localhost and production URLs
+    origin: ["https://chat-application-k64c.vercel.app"], // Allow both localhost and production URLs
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
