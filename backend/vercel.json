@@ -11,6 +11,9 @@
         "src": "/(.*)",  
         "dest": "/dist/index.js"
       }
-    ]
+    ],
+    "env": {
+      "CORS_ORIGIN": "https://chat-application-k64c.vercel.app"  
+    }
   }
   
