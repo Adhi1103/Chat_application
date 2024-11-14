@@ -13,5 +13,5 @@
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"],
-  "files":["index.d.ts"]
+  "files":["src/index.d.ts"]
 }
