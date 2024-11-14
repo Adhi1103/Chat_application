@@ -16,7 +16,7 @@ const corsOptions = {
   credentials: true, // Allow cookies and credentials
 };
 
-app.use(cors()); // Apply the CORS configuration
+app.use("/*",cors()); // Apply the CORS configuration
 //app.options('*', cors()); // Handle preflight requests
 console.log("hello there")
 const port =process.env.PORT||3000
