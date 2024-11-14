@@ -14,7 +14,7 @@ const app = express();
 
 app.use(cors( {
     origin: ['https://chat-application-k64c.vercel.app'], // Correct production URL
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST'],
     credentials: true, 
   })); // Apply the CORS configuration
 //app.options('*', cors()); // Handle preflight requests
