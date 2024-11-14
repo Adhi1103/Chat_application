@@ -3,10 +3,11 @@ import { PrismaClient } from '@prisma/client';
 import { sign } from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { is_friend, user_check } from './middleware';
-import cors from 'cors';
+//import cors from 'cors';
+
 import { WebSocketServer,WebSocket } from 'ws'
 dotenv.config();
-
+const cors=require("cors");
 const app = express();
 
 const corsOptions = {
@@ -16,8 +17,8 @@ const corsOptions = {
   credentials: true, // Allow cookies and credentials
 };
 
-app.use("/*",cors()); // Apply the CORS configuration
-//app.options('*', cors()); // Handle preflight requests
+app.use(cors(corsOptions)); // Apply the CORS configuration
+app.options('*', cors()); // Handle preflight requests
 console.log("hello there")
 const port =process.env.PORT||3000
 // Middleware to parse JSON bodies

@@ -8,17 +8,18 @@ const client_1 = require("@prisma/client");
 const jsonwebtoken_1 = require("jsonwebtoken");
 const dotenv_1 = __importDefault(require("dotenv"));
 const middleware_1 = require("./middleware");
-const cors_1 = __importDefault(require("cors"));
+//import cors from 'cors';
 const ws_1 = require("ws");
 dotenv_1.default.config();
+const cors = require("cors");
 const app = (0, express_1.default)();
 const corsOptions = {
     origin: ['https://chat-application-k64c.vercel.app/'], // Correct production URL
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true, // Allow cookies and credentials
 };
-app.use((0, cors_1.default)()); // Apply the CORS configuration
-//app.options('*', cors()); // Handle preflight requests
+app.use(cors(corsOptions)); // Apply the CORS configuration
+app.options('*', cors()); // Handle preflight requests
 console.log("hello there");
 const port = process.env.PORT || 3000;
 // Middleware to parse JSON bodies
