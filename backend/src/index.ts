@@ -5,21 +5,21 @@ import dotenv from 'dotenv';
 import { is_friend, user_check } from './middleware';
 import cors from 'cors';
 import { WebSocketServer,WebSocket } from 'ws'
-
 dotenv.config();
 
-const app:Express = express();
-const corsOptions = {
-    origin: ["https://chat-application-k64c.vercel.app"], // Allow both localhost and production URLs
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials:true
-  };
-  
-  app.use(cors(corsOptions)); // Apply the CORS configuration
-  app.options("*",cors())
-const port = process.env.PORT||3000;
+const app = express();
 
+const corsOptions = {
+  origin: ['https://chat-application-k64c.vercel.app'], // Correct production URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+   
+  credentials: true, // Allow cookies and credentials
+};
+
+app.use(cors(corsOptions)); // Apply the CORS configuration
+app.options('*', cors()); // Handle preflight requests
+console.log("hello there")
+const port =process.env.PORT||3000
 // Middleware to parse JSON bodies
 app.use(express.json());
 

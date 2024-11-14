@@ -13,17 +13,20 @@ const ws_1 = require("ws");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const corsOptions = {
-    origin: ["https://chat-application-k64c.vercel.app"], // Allow both localhost and production URLs
+    origin: ['https://chat-application-k64c.vercel.app'], // Correct production URL
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
+    credentials: true, // Allow cookies and credentials
 };
 app.use((0, cors_1.default)(corsOptions)); // Apply the CORS configuration
-app.options("*", (0, cors_1.default)());
+//app.options('/*', cors()); // Handle preflight requests
+console.log("hello there");
 const port = process.env.PORT || 3000;
 // Middleware to parse JSON bodies
 app.use(express_1.default.json());
 // In express the callback function in express routes we should not use return it is used in hono only 
+app.get("/", function (req, res) {
+    res.json({ message: "Hello" });
+});
 app.post('/api/v1/user/signup', async function (req, res) {
     const prisma = new client_1.PrismaClient();
     const { username, password, email } = req.body;

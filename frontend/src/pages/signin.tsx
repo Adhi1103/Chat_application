@@ -29,7 +29,7 @@ export const Signin = function({onLogin}:SigninProps) {
         setError(null);
 
         try {
-            const response = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, post_inputs);
+            const response = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, post_inputs, { withCredentials: true } );
             const token = response.data.token;
             const username = response.data.username;
 

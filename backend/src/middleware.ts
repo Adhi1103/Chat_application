@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import { PrismaClient } from "@prisma/client";
 
 dotenv.config();
+
 const jwt_password=process.env.JWT_SECRET;
 
  export async function user_check(req:Request,res:Response,next:NextFunction){
