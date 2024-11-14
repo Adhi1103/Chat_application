@@ -1,7 +1,7 @@
 import { Request } from 'express';
 
 declare module 'express-serve-static-core' {
-  interface Request {
+ export  interface Request {
     username?: string;
     id?: number;
   }
