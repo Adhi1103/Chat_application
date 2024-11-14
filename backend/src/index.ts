@@ -69,8 +69,7 @@ catch(e){
 app.get("/api/v1/user/bulk",user_check,async function(req:Request,res:Response){
     const user=req.query.name;
      const username=req.username;
-     console.log(user);
-     console.log(username);
+
     try{
         const prisma=new PrismaClient();
         if(typeof user==="string" ){
@@ -79,14 +78,13 @@ app.get("/api/v1/user/bulk",user_check,async function(req:Request,res:Response){
                 const final_users=users.filter(function(user){
 return(user.username!==username)
                 });
-                console.log(final_users);
+    
                 res.json({users:final_users});
             }
         }
 
     }
     catch(e){
-console.log(e);
     }
 })
 app.post("/api/v1/user/add/friends",user_check,async function(req:Request,res:Response){

@@ -3,6 +3,8 @@
     "target": "ES2020",
     "module": "commonjs",
     "strict": true,
+    "declaration": true,
+    "emitDeclarationOnly": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,

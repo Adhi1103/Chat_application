@@ -22,7 +22,7 @@ app.post('/api/v1/user/signup', async function (req, res) {
     const { username, password, email } = req.body;
     // Check if username already exists
     try {
-        const user_find = await prisma.user.findFirst({ where: { username } });
+        const user_find = await prisma.user.findFirst({ where: { username, email } });
         if (user_find) {
             res.status(400).json({ message: 'Username already exists' });
         }
@@ -58,8 +58,6 @@ app.post("/api/v1/user/signin", async function (req, res) {
 app.get("/api/v1/user/bulk", middleware_1.user_check, async function (req, res) {
     const user = req.query.name;
     const username = req.username;
-    console.log(user);
-    console.log(username);
     try {
         const prisma = new client_1.PrismaClient();
         if (typeof user === "string") {
@@ -68,13 +66,11 @@ app.get("/api/v1/user/bulk", middleware_1.user_check, async function (req, res) 
                 const final_users = users.filter(function (user) {
                     return (user.username !== username);
                 });
-                console.log(final_users);
                 res.json({ users: final_users });
             }
         }
     }
     catch (e) {
-        console.log(e);
     }
 });
 app.post("/api/v1/user/add/friends", middleware_1.user_check, async function (req, res) {
