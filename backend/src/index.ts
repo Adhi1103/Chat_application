@@ -10,14 +10,14 @@ dotenv.config();
 const app = express();
 
 const corsOptions = {
-  origin: ['https://chat-application-k64c.vercel.app'], // Correct production URL
+  origin: ['https://chat-application-k64c.vercel.app/'], // Correct production URL
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
    
   credentials: true, // Allow cookies and credentials
 };
 
-app.use(cors(corsOptions)); // Apply the CORS configuration
-app.options('*', cors()); // Handle preflight requests
+app.use(cors()); // Apply the CORS configuration
+//app.options('*', cors()); // Handle preflight requests
 console.log("hello there")
 const port =process.env.PORT||3000
 // Middleware to parse JSON bodies
