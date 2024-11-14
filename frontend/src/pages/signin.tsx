@@ -4,7 +4,7 @@ import { Signin_type, SigninSchema } from "@adarsh7/chat-app";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../components/button";
 import axios from 'axios';
-//import { BACKEND_URL } from "../config";
+import { BACKEND_URL } from "../config";
 
 interface SigninProps {
     onLogin: () => void; // Define the type for the onLogin function
@@ -29,7 +29,7 @@ axios.defaults.withCredentials=true;
         setError(null);
 
         try {
-            const response = await axios.post(`https://chat-application-gugo.vercel.app/api/v1/user/signin`, post_inputs );
+            const response = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, post_inputs );
             const token = response.data.token;
             const username = response.data.username;
 

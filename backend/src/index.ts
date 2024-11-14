@@ -3,11 +3,11 @@ import { PrismaClient } from '@prisma/client';
 import { sign } from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { is_friend, user_check } from './middleware';
-//import cors from 'cors';
+import cors from 'cors';
 
 import { WebSocketServer,WebSocket } from 'ws'
 dotenv.config();
-const cors=require("cors");
+
 const app = express();
 
 
