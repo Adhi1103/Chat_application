@@ -60,19 +60,22 @@ app.post('/api/v1/user/signup', async  function(req: Request, res: Response) {
 
 
 });
-app.post("/api/v1/user/signin",async function(req:Request,res:Response){
+app.post("/api/v1/user/signin", function(req:Request,res:Response){
 const prisma=new PrismaClient();
 const {email,password}=req.body;
 
 try{
-const user=await prisma.user.findFirst({where:{email:email,password:password}});
-if(user){
-    const token=sign({id:user.id,user:user.username},process.env.JWT_SECRET as string);
-    res.json({message:"sign in successfull",token:token,username:user.username})
-}
-else{
-    res.json({message:"Invalid email or password"})
-}
+ prisma.user.findFirst({where:{email:email,password:password}}).then(function(user){
+    if(user){
+        const token=sign({id:user.id,user:user.username},process.env.JWT_SECRET as string);
+        res.json({message:"sign in successfull",token:token,username:user.username})
+    }
+    else{
+        res.json({message:"Invalid email or password"})
+    }
+ });
+
+
 }
 
 catch(e){
