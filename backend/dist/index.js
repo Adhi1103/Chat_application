@@ -52,18 +52,19 @@ app.post('/api/v1/user/signup', async function (req, res) {
         res.send(e);
     }
 });
-app.post("/api/v1/user/signin", async function (req, res) {
+app.post("/api/v1/user/signin", function (req, res) {
     const prisma = new edge_1.PrismaClient();
     const { email, password } = req.body;
     try {
-        const user = await prisma.user.findFirst({ where: { email: email, password: password } });
-        if (user) {
-            const token = (0, jsonwebtoken_1.sign)({ id: user.id, user: user.username }, process.env.JWT_SECRET);
-            res.json({ message: "sign in successfull", token: token, username: user.username });
-        }
-        else {
-            res.json({ message: "Invalid email or password" });
-        }
+        prisma.user.findFirst({ where: { email: email, password: password } }).then(function (user) {
+            if (user) {
+                const token = (0, jsonwebtoken_1.sign)({ id: user.id, user: user.username }, process.env.JWT_SECRET);
+                res.json({ message: "sign in successfull", token: token, username: user.username });
+            }
+            else {
+                res.json({ message: "Invalid email or password" });
+            }
+        });
     }
     catch (e) {
         res.send(e);
