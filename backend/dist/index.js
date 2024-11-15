@@ -27,6 +27,9 @@ app.use(express_1.default.json());
 app.get("/", function (req, res) {
     res.json({ message: "Hello" });
 });
+app.get("/api/v1/user/signin", function (req, res) {
+    res.json({ message: "hello" });
+});
 app.post('/api/v1/user/signup', async function (req, res) {
     const prisma = new edge_1.PrismaClient();
     const { username, password, email } = req.body;
