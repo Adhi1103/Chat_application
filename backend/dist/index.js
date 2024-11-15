@@ -10,15 +10,21 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const middleware_1 = require("./middleware");
 const cors_1 = __importDefault(require("cors"));
 const ws_1 = require("ws");
+const port = process.env.PORT || 3000;
 dotenv_1.default.config();
 const app = (0, express_1.default)();
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "https://chat-application-k64c.vercel.app"); // Frontend origin
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    next();
+});
 app.use((0, cors_1.default)({
-    origin: "*", // Correct production URL
-})); // Apply the CORS configuration
-//app.options('*', cors()); // Handle preflight requests
-console.log("hello there");
-const port = process.env.PORT || 3000;
-// Middleware to parse JSON bodies
+    origin: "https://chat-application-k64c.vercel.app", // Replace with your frontend's URL
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Content-Type,Authorization",
+}));
+app.options("*", (0, cors_1.default)()); // Handle preflight requests
 app.use(express_1.default.json());
 // In express the callback function in express routes we should not use return it is used in hono only 
 app.get("/", function (req, res) {
@@ -49,24 +55,21 @@ app.post('/api/v1/user/signup', async function (req, res) {
         res.send(e);
     }
 });
-app.post("/api/v1/user/signin", function (req, res) {
+app.post("/api/v1/user/signin", async (req, res) => {
     const prisma = new client_1.PrismaClient();
     const { email, password } = req.body;
     try {
-        console.log("hello from siginin ");
-        prisma.user.findFirst({ where: { email: email, password: password } }).then(function (user) {
-            if (user) {
-                console.log("hello from user");
-                const token = (0, jsonwebtoken_1.sign)({ id: user.id, user: user.username }, process.env.JWT_SECRET);
-                res.json({ message: "sign in successfull", token: token, username: user.username });
-            }
-            else {
-                res.json({ message: "Invalid email or password" });
-            }
-        });
+        const user = await prisma.user.findFirst({ where: { email, password } });
+        if (user) {
+            const token = (0, jsonwebtoken_1.sign)({ id: user.id, user: user.username }, process.env.JWT_SECRET);
+            res.json({ message: "Sign-in successful", token, username: user.username });
+        }
+        else {
+            res.status(401).json({ message: "Invalid email or password" });
+        }
     }
     catch (e) {
-        res.send(e);
+        res.status(500).json({ message: "An error occurred", error: e });
     }
 });
 app.get("/api/v1/user/bulk", middleware_1.user_check, async function (req, res) {
