@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const client_1 = require("@prisma/client");
+const edge_1 = require("@prisma/client/edge");
 const jsonwebtoken_1 = require("jsonwebtoken");
 const dotenv_1 = __importDefault(require("dotenv"));
 const middleware_1 = require("./middleware");
@@ -15,6 +15,7 @@ const app = (0, express_1.default)();
 app.use((0, cors_1.default)({
     origin: ['https://chat-application-k64c.vercel.app'], // Correct production URL
     methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
 })); // Apply the CORS configuration
 //app.options('*', cors()); // Handle preflight requests
@@ -27,7 +28,7 @@ app.get("/", function (req, res) {
     res.json({ message: "Hello" });
 });
 app.post('/api/v1/user/signup', async function (req, res) {
-    const prisma = new client_1.PrismaClient();
+    const prisma = new edge_1.PrismaClient();
     const { username, password, email } = req.body;
     // Check if username already exists
     try {
@@ -48,7 +49,7 @@ app.post('/api/v1/user/signup', async function (req, res) {
     }
 });
 app.post("/api/v1/user/signin", async function (req, res) {
-    const prisma = new client_1.PrismaClient();
+    const prisma = new edge_1.PrismaClient();
     const { email, password } = req.body;
     try {
         const user = await prisma.user.findFirst({ where: { email: email, password: password } });
@@ -68,7 +69,7 @@ app.get("/api/v1/user/bulk", middleware_1.user_check, async function (req, res) 
     const user = req.query.name;
     const username = req.username;
     try {
-        const prisma = new client_1.PrismaClient();
+        const prisma = new edge_1.PrismaClient();
         if (typeof user === "string") {
             const users = await prisma.user.findMany({ where: { username: { contains: user, mode: "insensitive" } }, select: { username: true } });
             if (users) {
@@ -86,7 +87,7 @@ app.post("/api/v1/user/add/friends", middleware_1.user_check, async function (re
     const friend = req.body.username;
     const name = req.username;
     try {
-        const prisma = new client_1.PrismaClient();
+        const prisma = new edge_1.PrismaClient();
         const users = await prisma.user.findUnique({ where: { username: name }, select: { friends: true } });
         if (users && !users.friends.includes(friend)) {
             const value = await prisma.user.update({ where: { username: name }, data: { friends: { push: friend } } });
@@ -103,7 +104,7 @@ app.post("/api/v1/user/add/friends", middleware_1.user_check, async function (re
 app.get('/api/v1/user/friends', middleware_1.user_check, async function (req, res) {
     const username = req.username;
     try {
-        const prisma = new client_1.PrismaClient();
+        const prisma = new edge_1.PrismaClient();
         const value = await prisma.user.findFirst({ where: { username: username }, select: { friends: true, id: true, username: true } });
         if (value) {
             res.json({ friends: value.friends, username: value.username });
@@ -118,7 +119,7 @@ app.post("/api/v1/user/message/:username", middleware_1.user_check, middleware_1
     const name = String(req.username);
     const username = req.params.username;
     try {
-        const prisma = new client_1.PrismaClient();
+        const prisma = new edge_1.PrismaClient();
         const value = await prisma.message.create({ data: { content: message, senderName: name, sendTo: username } });
         res.json({ message: "Message sent sucessfully", message_model: value });
     }
@@ -131,7 +132,7 @@ app.get("/api/v1/user/sent/messages/:username", middleware_1.user_check, middlew
     console.log(req.params.username);
     const username = req.params.username;
     try {
-        const prisma = new client_1.PrismaClient();
+        const prisma = new edge_1.PrismaClient();
         const messages = await prisma.message.findMany({ where: { senderName: name, sendTo: username }, select: { content: true, senderName: true, sendTo: true, createdAt: true } });
         if (messages) {
             res.json({ messages: messages });
@@ -148,7 +149,7 @@ app.get("/api/v1/user/received/messages/:username", middleware_1.user_check, mid
     const username = req.username;
     const name = String(req.params.username);
     try {
-        const prisma = new client_1.PrismaClient();
+        const prisma = new edge_1.PrismaClient();
         const messages = await prisma.message.findMany({ where: { senderName: name, sendTo: username }, select: { content: true, senderName: true, sendTo: true, createdAt: true } });
         if (messages) {
             res.json({ messages: messages });
@@ -164,7 +165,7 @@ app.get("/api/v1/user/received/messages/:username", middleware_1.user_check, mid
 app.delete("/api/v1/user/messages", middleware_1.user_check, async function (req, res) {
     const id = Number(req.query.id);
     try {
-        const prisma = new client_1.PrismaClient();
+        const prisma = new edge_1.PrismaClient();
         const value = await prisma.message.delete({ where: { id: id } });
         if (value) {
             res.json({ message: "message deleted" });

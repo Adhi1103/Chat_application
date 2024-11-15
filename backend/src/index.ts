@@ -1,5 +1,5 @@
 import express, {Express, Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client/edge';
 import { sign } from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { is_friend, user_check } from './middleware';
@@ -15,6 +15,7 @@ const app = express();
 app.use(cors( {
     origin: ['https://chat-application-k64c.vercel.app'], // Correct production URL
     methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true, 
   })); // Apply the CORS configuration
 //app.options('*', cors()); // Handle preflight requests
@@ -26,6 +27,9 @@ app.use(express.json());
 // In express the callback function in express routes we should not use return it is used in hono only 
 app.get("/",function(req:Request,res:Response){
     res.json({message:"Hello"});
+});
+app.get("/api/v1/user/signin",async function(req:Request,res:Response){
+    res.json({message:"hello"});
 })
 app.post('/api/v1/user/signup', async  function(req: Request, res: Response) {
   const prisma = new PrismaClient();

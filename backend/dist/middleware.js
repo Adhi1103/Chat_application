@@ -7,7 +7,7 @@ exports.user_check = user_check;
 exports.is_friend = is_friend;
 const jsonwebtoken_1 = require("jsonwebtoken");
 const dotenv_1 = __importDefault(require("dotenv"));
-const client_1 = require("@prisma/client");
+const edge_1 = require("@prisma/client/edge");
 dotenv_1.default.config();
 const jwt_password = process.env.JWT_SECRET;
 async function user_check(req, res, next) {
@@ -33,7 +33,7 @@ async function is_friend(req, res, next) {
     const username = req.params.username;
     const user = req.username;
     try {
-        const prisma = new client_1.PrismaClient();
+        const prisma = new edge_1.PrismaClient();
         const result = await prisma.user.findFirst({ where: { username: user }, select: { friends: true } });
         if (result) {
             const friend = result.friends;
