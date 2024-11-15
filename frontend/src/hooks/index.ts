@@ -74,7 +74,7 @@ export const useReceivedMessage=function({name}:Username){
 export const useTesting=function(){ 
     const [data,setData]=useState("");
     useEffect(function(){
-axios.get(`${BACKEND_URL}/api/user/sigin`).then(function(value){
+axios.get(`${BACKEND_URL}/api/user/signin`).then(function(value){
 setData(value.data);
 })
     },[])
