@@ -13,10 +13,8 @@ const app = express();
 
 
 app.use(cors( {
-    origin: ['https://chat-application-k64c-git-main-adarsh7rajs-projects.vercel.app'], // Correct production URL
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true, 
+    origin: "*", // Correct production URL
+   
   })); // Apply the CORS configuration
 //app.options('*', cors()); // Handle preflight requests
 console.log("hello there")

@@ -13,10 +13,7 @@ const ws_1 = require("ws");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({
-    origin: ['https://chat-application-k64c-git-main-adarsh7rajs-projects.vercel.app'], // Correct production URL
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
+    origin: "*", // Correct production URL
 })); // Apply the CORS configuration
 //app.options('*', cors()); // Handle preflight requests
 console.log("hello there");
