@@ -6,6 +6,7 @@ import { Friend } from './pages/friends.tsx';
 import { AddFriend } from './pages/add_friends.tsx';
 import { Message } from './pages/message.tsx';
 import LandingPage from './pages/landing.tsx';
+import { Testing } from './pages/testing.tsx';
 
 function App() {
   // State to manage authentication status
@@ -49,6 +50,7 @@ function App() {
           element={isAuthenticated ? <Navigate to={"/friends"}/> : <LandingPage />}
         />
         <Route path="/landing" element={<LandingPage/>}></Route>
+        <Route path="/testing" element={<Testing></Testing>}></Route>
       </Routes>
     </BrowserRouter>
   );
