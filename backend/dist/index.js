@@ -56,8 +56,10 @@ app.post("/api/v1/user/signin", function (req, res) {
     const prisma = new client_1.PrismaClient();
     const { email, password } = req.body;
     try {
+        console.log("hello from siginin ");
         prisma.user.findFirst({ where: { email: email, password: password } }).then(function (user) {
             if (user) {
+                console.log("hello from user");
                 const token = (0, jsonwebtoken_1.sign)({ id: user.id, user: user.username }, process.env.JWT_SECRET);
                 res.json({ message: "sign in successfull", token: token, username: user.username });
             }
