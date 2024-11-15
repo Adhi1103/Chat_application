@@ -13,7 +13,7 @@ export const Signin = function({onLogin}:SigninProps) {
     const navigate = useNavigate();
     const [post_inputs, setPost] = useState<Signin_type>({ password: "", email: "" });
     const [error, setError] = useState<string | null>(null);
-    axios.defaults.withCredentials = true;
+    //axios.defaults.withCredentials = true;
     async function send_request() {
         // Validate inputs using SigninSchema
         const validationResult = SigninSchema.safeParse(post_inputs);
@@ -29,7 +29,7 @@ export const Signin = function({onLogin}:SigninProps) {
         setError(null);
 
         try {
-            const response = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, post_inputs,{withCredentials:true} );
+            const response = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, post_inputs, );
             const token = response.data.token;
             const username = response.data.username;
 
