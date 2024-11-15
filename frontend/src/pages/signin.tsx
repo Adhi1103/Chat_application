@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Signin_type, SigninSchema } from "@adarsh7/chat-app";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../components/button";
-import axios from 'axios';
+//import axios from 'axios';
 import { BACKEND_URL } from "../config";
 
 interface SigninProps {
@@ -29,20 +29,33 @@ export const Signin = function({onLogin}:SigninProps) {
         setError(null);
 
         try {
-            const response = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, post_inputs, );
-            const token = response.data.token;
-            const username = response.data.username;
-
-            if (token) {
-                localStorage.setItem("JWT", token);
-                localStorage.setItem("username", username);
-                alert("Signed in Successfully");
-                onLogin();
-                navigate("/friends");
+            const response = await fetch(`${BACKEND_URL}/api/v1/user/signin`, {
+                method: "POST",
+                
+                body: JSON.stringify(post_inputs),
+            });
+        
+            if (response.ok) {
+                const data = await response.json();
+                const token = data.token;
+                const username = data.username;
+        
+                if (token) {
+                    localStorage.setItem("JWT", token);
+                    localStorage.setItem("username", username);
+                    alert("Signed in Successfully");
+                    onLogin();
+                    navigate("/friends");
+                } else {
+                    alert(data.message);
+                }
             } else {
-                alert(response.data.message);
+                const errorData = await response.json();
+                alert(errorData.message || "An error occurred. Please try again.");
             }
-        } catch (e) {
+        }        
+   
+        catch (e) {
             alert("An error occurred. Please try again.");
             console.log(e);
         }
