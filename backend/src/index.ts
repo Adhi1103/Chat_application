@@ -227,7 +227,7 @@ app.delete("/api/v1/user/messages",user_check,async function(req:Request,res:Res
         console.log(e);
     }
 })
-const Server=app.listen(port, () => {
+const Server=app.listen(3000, () => {
   console.log(`Server is running on 3000`);
 });
 

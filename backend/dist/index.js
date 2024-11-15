@@ -8,14 +8,13 @@ const client_1 = require("@prisma/client");
 const jsonwebtoken_1 = require("jsonwebtoken");
 const dotenv_1 = __importDefault(require("dotenv"));
 const middleware_1 = require("./middleware");
-//import cors from 'cors';
+const cors_1 = __importDefault(require("cors"));
 const ws_1 = require("ws");
 dotenv_1.default.config();
-const cors = require("cors");
 const app = (0, express_1.default)();
-app.use(cors({
+app.use((0, cors_1.default)({
     origin: ['https://chat-application-k64c.vercel.app'], // Correct production URL
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST'],
     credentials: true,
 })); // Apply the CORS configuration
 //app.options('*', cors()); // Handle preflight requests
@@ -178,7 +177,7 @@ app.delete("/api/v1/user/messages", middleware_1.user_check, async function (req
         console.log(e);
     }
 });
-const Server = app.listen(port, () => {
+const Server = app.listen(3000, () => {
     console.log(`Server is running on 3000`);
 });
 // Create WebSocket server
