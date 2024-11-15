@@ -6,20 +6,25 @@ import { is_friend, user_check } from './middleware';
 import cors from 'cors';
 
 import { WebSocketServer,WebSocket } from 'ws'
+
+const port =process.env.PORT||3000
 dotenv.config();
 
 const app = express();
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "https://chat-application-k64c.vercel.app"); // Frontend origin
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    next();
+})
 
+app.use(cors({
+    origin: "https://chat-application-k64c.vercel.app", // Replace with your frontend's URL
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Content-Type,Authorization",
+}));
 
-
-app.use(cors( {
-    origin: "*", // Correct production URL
-   
-  })); // Apply the CORS configuration
-//app.options('*', cors()); // Handle preflight requests
-console.log("hello there")
-const port =process.env.PORT||3000
-// Middleware to parse JSON bodies
+app.options("*", cors()); // Handle preflight requests
 app.use(express.json());
 
 // In express the callback function in express routes we should not use return it is used in hono only 
@@ -58,32 +63,24 @@ app.post('/api/v1/user/signup', async  function(req: Request, res: Response) {
 
 
 });
-app.post("/api/v1/user/signin", function(req:Request,res:Response){
-const prisma=new PrismaClient();
-const {email,password}=req.body;
 
-try{
-    console.log("hello from siginin ")
- prisma.user.findFirst({where:{email:email,password:password}}).then(function(user){
-    if(user){
-        console.log("hello from user")
-        const token=sign({id:user.id,user:user.username},process.env.JWT_SECRET as string);
-        res.json({message:"sign in successfull",token:token,username:user.username})
+app.post("/api/v1/user/signin", async (req: Request, res: Response) => {
+    const prisma = new PrismaClient();
+    const { email, password } = req.body;
+
+    try {
+        const user = await prisma.user.findFirst({ where: { email, password } });
+        if (user) {
+            const token = sign({ id: user.id, user: user.username }, process.env.JWT_SECRET as string);
+            res.json({ message: "Sign-in successful", token, username: user.username });
+        } else {
+            res.status(401).json({ message: "Invalid email or password" });
+        }
+    } catch (e) {
+        res.status(500).json({ message: "An error occurred", error: e });
     }
-    else{
-        res.json({message:"Invalid email or password"})
-    }
- });
-
-
-}
-
-catch(e){
-    res.send(e);
-}
-
-
 });
+
 app.get("/api/v1/user/bulk",user_check,async function(req:Request,res:Response){
     const user=req.query.name;
      const username=req.username;
