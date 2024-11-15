@@ -27,6 +27,7 @@ app.use(express_1.default.json());
 app.get("/", function (req, res) {
     res.json({ message: "Hello" });
 });
+//new route added 
 app.get("/api/v1/user/signin", function (req, res) {
     res.json({ message: "hello" });
 });
