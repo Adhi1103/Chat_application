@@ -28,7 +28,7 @@ app.use(express.json());
 app.get("/",function(req:Request,res:Response){
     res.json({message:"Hello"});
 });
-app.get("/api/v1/user/signin",async function(req:Request,res:Response){
+app.get("/api/v1/user/signin", function(req:Request,res:Response){
     res.json({message:"hello"});
 })
 app.post('/api/v1/user/signup', async  function(req: Request, res: Response) {
