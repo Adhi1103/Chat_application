@@ -1,5 +1,5 @@
 import express, {Express, Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client/edge';
+import { PrismaClient } from '@prisma/client';
 import { sign } from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { is_friend, user_check } from './middleware';
@@ -235,7 +235,7 @@ app.delete("/api/v1/user/messages",user_check,async function(req:Request,res:Res
         console.log(e);
     }
 })
-const Server=app.listen(3000, () => {
+const Server=app.listen(port, () => {
   console.log(`Server is running on 3000`);
 });
 

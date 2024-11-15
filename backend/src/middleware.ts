@@ -2,7 +2,7 @@ import { NextFunction,Request,Response } from "express";
 import { verify } from "jsonwebtoken";
 import { string } from "zod";
 import dotenv from 'dotenv';
-import { PrismaClient } from "@prisma/client/edge";
+import { PrismaClient } from "@prisma/client";
 
 dotenv.config();
 
