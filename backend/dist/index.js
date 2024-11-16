@@ -23,10 +23,11 @@ app.use((0, cors_1.default)({
     origin: "https://chat-application-k64c.vercel.app", // Replace with your frontend's URL
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type,Authorization",
+    credentials: true
 }));
 app.options("*", (0, cors_1.default)()); // Handle preflight requests
 app.use(express_1.default.json());
-// In express the callback function in express routes we should not use return it is used in hono only  
+// In express the callback function in express routes we should not use return it is used in hono only 
 app.get("/", function (req, res) {
     res.json({ message: "Hello" });
 });
