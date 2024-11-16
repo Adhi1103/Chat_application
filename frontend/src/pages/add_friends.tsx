@@ -18,8 +18,11 @@ console.log(user);
         useEffect(function(){
             const token=localStorage.getItem("JWT");
 const response=axios.get(`${BACKEND_URL}/api/v1/user/bulk?name=${value}`,{ headers: {
-    'Authorization': token
-}});
+    "Content-Type": "application/json",
+    Authorization: token
+},
+    withCredentials:true
+});
 response.then(function(value){
     console.log(value.data.users);
     setUsers(value.data.users);

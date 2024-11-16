@@ -105,12 +105,18 @@ if(data.senderName===name){
                 // Update the UI with the newly sent message
               const value=sentMessage;
               setSentMessage("");
-        const response = await axios.post(
-          `${BACKEND_URL}/api/v1/user/message/${name}`,
-          { content:value, createdAt: new Date().toISOString() },
-          { headers: { Authorization: localStorage.getItem("JWT") } }
-        );
-      
+              const response = await axios.post(
+                `${BACKEND_URL}/api/v1/user/message/${name}`,
+                { content: value, createdAt: new Date().toISOString() },
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: localStorage.getItem("JWT"),
+                  },
+                  withCredentials: true, // Ensure this is part of the config object
+                }
+              );
+              
 console.log(response)
 
       } catch (error) {

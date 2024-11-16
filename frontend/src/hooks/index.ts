@@ -20,7 +20,7 @@ export const useFriends=function(){
   
     const token=localStorage.getItem("JWT");
     useEffect(  function(){
-        const response=axios.get(`${BACKEND_URL}/api/v1/user/friends`,{headers:{Authorization:token}});
+        const response=axios.get(`${BACKEND_URL}/api/v1/user/friends`,{headers:{"Content-Type": "application/json",Authorization:token},withCredentials:true});
         response.then(function(value){
         
           
@@ -40,7 +40,7 @@ export const useSentMessage=function({name}:Username){
     
     useEffect(function(){
         setLoading(true);
-       axios.get(`${BACKEND_URL}/api/v1/user/sent/messages/${name}`,{headers:{Authorization:localStorage.getItem("JWT")}}).then(function(value){
+       axios.get(`${BACKEND_URL}/api/v1/user/sent/messages/${name}`,{headers:{"Content-Type": "application/json",Authorization:localStorage.getItem("JWT")},withCredentials:true}).then(function(value){
         console.log("yes1");
 
         setSentMessage(value.data.messages);
@@ -58,7 +58,7 @@ export const useReceivedMessage=function({name}:Username){
     const [received_message,setReceivedMessage]=useState<Message[]>([]);
     useEffect(function(){
         setLoading(true);
-        axios.get(`${BACKEND_URL}/api/v1/user/received/messages/${name}`,{headers:{Authorization:localStorage.getItem("JWT")}}).then(function(value){
+        axios.get(`${BACKEND_URL}/api/v1/user/received/messages/${name}`,{headers:{"Content-Type": "application/json",Authorization:localStorage.getItem("JWT")},withCredentials:true}).then(function(value){
            
  
             setReceivedMessage(value.data.messages);

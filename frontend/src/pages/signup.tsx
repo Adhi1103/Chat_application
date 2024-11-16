@@ -29,7 +29,17 @@ export const Signup = function ({onSignup}:SignupProps) {
         setError(null);
 
         try {
-            const response = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, user_inputs);
+            const response = await axios.post(
+                `${BACKEND_URL}/api/v1/user/signup`,
+                user_inputs,
+                {
+                  headers: {
+                    "Content-Type": "application/json", // Specify the content type
+                  },
+                  withCredentials: true, // Ensures cookies and other credentials are sent
+                }
+              );
+              
             const token = response.data.token;
             const username = response.data.username;
             if(token){

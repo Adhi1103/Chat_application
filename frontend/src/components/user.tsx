@@ -31,7 +31,7 @@ export const User = function ({ username }: Username) {
                             const response = await axios.post(
                                 `${BACKEND_URL}/api/v1/user/add/friends`,
                                 { username },
-                                { headers: { Authorization: localStorage.getItem("JWT") } }
+                                { headers: {"Content-Type": "application/json", Authorization: localStorage.getItem("JWT") } ,withCredentials:true}
                             );
                             if (response.data) {
                                 console.log(response.data);
