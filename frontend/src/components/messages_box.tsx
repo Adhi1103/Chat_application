@@ -23,7 +23,7 @@ export const MessageBox = function ({ name }: User) {
   const { received_message } = useReceivedMessage({ name });
   const [allMessages, setAllMessages] = useState<Message[]>([]);
   const [sentMessage, setSentMessage] = useState<string>(''); // Input message
-
+  
   var user = localStorage.getItem("username");
 
   // Combine sent and received messages, and sort by createdAt
@@ -38,7 +38,7 @@ export const MessageBox = function ({ name }: User) {
 
   useEffect(() => {
 
-    const ws = new WebSocket('ws://localhost:3000');
+    const ws = new WebSocket("wss://chat-application-2-jzm0.onrender.com");
 
     ws.onopen = () => {
      
