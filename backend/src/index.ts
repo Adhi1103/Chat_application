@@ -22,6 +22,7 @@ app.use(cors({
     origin: "https://chat-application-k64c.vercel.app", // Replace with your frontend's URL
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type,Authorization",
+credentials:true
 }));
 
 app.options("*", cors()); // Handle preflight requests
