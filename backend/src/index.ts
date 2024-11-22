@@ -1,5 +1,5 @@
 import express, {Express, Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import { sign } from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { is_friend, user_check } from './middleware';
@@ -12,14 +12,14 @@ dotenv.config();
 
 const app = express();
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://chat-application-k64c.vercel.app"); // Frontend origin
+    res.header("Access-Control-Allow-Origin", "http://localhost:5173"); // Frontend origin
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
     next();
 })
 
 app.use(cors({
-    origin: "https://chat-application-k64c.vercel.app", // Replace with your frontend's URL
+    origin: "http://localhost:5173", // Replace with your frontend's URL
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type,Authorization",
 credentials:true
@@ -81,6 +81,19 @@ app.post("/api/v1/user/signin", async (req: Request, res: Response) => {
         res.status(500).json({ message: "An error occurred", error: e });
     }
 });
+app.get("/api/v1/userdetail/:username",user_check,async function(req:Request,res:Response){
+    const name=req.params.username;
+    try{
+        
+        const prisma=new PrismaClient();
+        const user_detail=await prisma.user.findUnique({where:{username:name},select:{username:true,email:true}});
+        res.json({user:user_detail});
+    }
+    catch(e){
+console.log(e);
+    }
+
+})
 
 app.get("/api/v1/user/bulk",user_check,async function(req:Request,res:Response){
     const user=req.query.name;

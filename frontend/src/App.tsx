@@ -7,7 +7,8 @@ import { AddFriend } from './pages/add_friends.tsx';
 import { Message } from './pages/message.tsx';
 import LandingPage from './pages/landing.tsx';
 import { Testing } from './pages/testing.tsx';
-
+import { SecureMessage } from './pages/SecureMessage.tsx';
+import { UserDetail } from './pages/user_detail.tsx';
 function App() {
   // State to manage authentication status
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -43,14 +44,15 @@ function App() {
           path="/message/:username"
           element={isAuthenticated ? <Message /> : <LandingPage />}
         />
-
+<Route path="/message/private/:username" element={isAuthenticated? <SecureMessage/>:<LandingPage/>}/>
         {/* Landing Page Route */}
         <Route
           path="/"
           element={isAuthenticated ? <Navigate to={"/friends"}/> : <LandingPage />}
         />
+        <Route path="/profile/:username" element={isAuthenticated?<UserDetail/>:<LandingPage/>} />
         <Route path="/landing" element={<LandingPage/>}></Route>
-        <Route path="/testing" element={<Testing></Testing>}></Route>
+        
       </Routes>
     </BrowserRouter>
   );

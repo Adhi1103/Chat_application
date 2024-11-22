@@ -8,7 +8,7 @@ export const Message = function() {
     return (
         <div className="flex justify-between">
             {/* Hide on mobile, show on md and larger */}
-            <div className="hidden md:block w-[500px]">
+            <div className="hidden md:block w-[500px] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
                 <Friend selectedFriend={username || "?"} />
             </div>
             <div className="w-[500px]">
