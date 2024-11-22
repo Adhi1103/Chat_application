@@ -1,25 +1,25 @@
 import express, {Express, Request, Response } from 'express';
-import { Prisma, PrismaClient } from '@prisma/client';
+import {  PrismaClient } from '@prisma/client';
 import { sign } from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { is_friend, user_check } from './middleware';
 import cors from 'cors';
 
-import { WebSocketServer,WebSocket } from 'ws'
+import {WebSocket } from 'ws'
 
 const port =process.env.PORT||3000
 dotenv.config();
 
 const app = express();
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "http://localhost:5173"); // Frontend origin
+    res.header("Access-Control-Allow-Origin", "https://chat-application-k64c-eyrh7qelc-adarsh7rajs-projects.vercel.app"); // Frontend origin
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
     next();
 })
 
 app.use(cors({
-    origin: "http://localhost:5173", // Replace with your frontend's URL
+    origin: "https://chat-application-k64c-eyrh7qelc-adarsh7rajs-projects.vercel.app", // Replace with your frontend's URL
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type,Authorization",
 credentials:true

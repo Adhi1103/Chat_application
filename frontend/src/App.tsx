@@ -6,7 +6,6 @@ import { Friend } from './pages/friends.tsx';
 import { AddFriend } from './pages/add_friends.tsx';
 import { Message } from './pages/message.tsx';
 import LandingPage from './pages/landing.tsx';
-import { Testing } from './pages/testing.tsx';
 import { SecureMessage } from './pages/SecureMessage.tsx';
 import { UserDetail } from './pages/user_detail.tsx';
 function App() {
