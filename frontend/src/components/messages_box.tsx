@@ -126,11 +126,11 @@ console.log(response)
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-[600px]   min-h-screen bg-gray-200">
+    <div className="flex flex-col items-center justify-center h-screen overflow-y-hidden   min-h-screen bg-gray-200">
       
     
-      <div className="border border-gray-300 rounded-lg overflow-hidden w-full  h-[700px] bg-white shadow-lg">
-        <div className="flex items-center bg-black-200 text-gray-600 w-full  font-semibold text-lg p-4">
+      <div className="border border-gray-300 rounded-lg overflow-hidden w-[700px]  h-screen bg-white shadow-lg">
+        <div className="flex items-center bg-gray-300 text-gray-600 w-full  font-semibold text-lg p-4">
           <span className="text-gray-500 mr-4">
        <Avatar name={name}></Avatar>
           </span>
@@ -138,7 +138,7 @@ console.log(response)
         </div>
 
       
-<ul className="flex flex-col bg-gray-100 w-[500px] h-[470px] overflow-y-scroll p-4">
+<ul className="flex flex-col bg-[url('https://media.istockphoto.com/id/1367515302/photo/anonymous-people-avatars-in-virtual-space.jpg?s=1024x1024&w=is&k=20&c=hZPBz-5yQ2neUP49-kMEsjSoMlXaW0FRsjsK3lhvFSw=')] bg-gray-100 w-[700px] h-[500px] overflow-y-scroll p-4">
   {loading1  ? (
     <MessageSkeleton /> // Show skeleton while loading
   ) : (
@@ -179,11 +179,11 @@ console.log(response)
 
 
         <form
-          className="flex   w-[500px] border-t p-4 bg-white"
+          className="flex   w-[700px] h-[10px] border-t p-3 bg-white"
           onSubmit={handleSendMessage}
         >
           <input
-            className="flex-grow h-12 px-4 border-none outline-none bg-gray-50"
+            className="flex-grow h-10 px-3 border-none outline-none bg-gray-50"
             type="text"
             value={sentMessage}
             onChange={(e) => setSentMessage(e.target.value)}
@@ -191,7 +191,7 @@ console.log(response)
           />
           <button
             type="submit"
-            className="h-12 px-6 ml-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none"
+            className="h-10 px-4 ml-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none"
           >
             Send <i className="fa-solid fa-paper-plane ml-2"></i>
           </button>

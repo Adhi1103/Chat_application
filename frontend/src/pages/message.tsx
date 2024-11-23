@@ -2,16 +2,18 @@ import { useParams } from "react-router-dom";
 import { MessageBox } from "../components/messages_box";
 import { Friend } from "./friends";
 
-export const Message = function() {
+export const Message = function () {
     const { username } = useParams();
 
     return (
-        <div className="flex justify-between">
-            {/* Hide on mobile, show on md and larger */}
-            <div className="hidden md:block w-[500px] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+        <div className="h-screen flex justify-between  overflow-y-hidden ">
+            {/* Friends list (hidden on mobile, scrollable on md and larger) */}
+            <div className="  hidden md:block w-[500px] ">
                 <Friend selectedFriend={username || "?"} />
             </div>
-            <div className="w-[500px]">
+
+            {/* Message box (scrollable) */}
+            <div className=" h-full">
                 <MessageBox name={username || "?"} />
             </div>
         </div>
