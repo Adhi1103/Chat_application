@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useRef } from 'react';
 import { Avatar } from './avatar';
 
 // Interface for the User and Message
@@ -19,7 +19,12 @@ export const SecureMessageBox = function ({ name }: User) {
   const [sentMessage, setSentMessage] = useState<string>(''); // Input message
   const [currentTime, setCurrentTime] = useState<number>(Date.now()); // State for tracking time
   const user = localStorage.getItem('username'); // Current user
-
+  const sendSound = useRef(new Audio('/sounds/message-tone.mp3'));
+  const receiveSound = useRef(new Audio('/sounds/message-tone.mp3'));
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [allMessages]);
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(Date.now());
@@ -50,6 +55,7 @@ export const SecureMessageBox = function ({ name }: User) {
             sendAt: Date.now(),
           },
         ]);
+        receiveSound.current.play()
       }
     };
 
@@ -74,7 +80,7 @@ export const SecureMessageBox = function ({ name }: User) {
         type: 'message',
         target: name,
         username: user,
-        content: sentMessage,
+        content: {content:sentMessage,senderName:user,sendTo:name},
         createdAt: new Date().toISOString(),
         sendAt: Date.now(),
       };
@@ -89,7 +95,7 @@ export const SecureMessageBox = function ({ name }: User) {
           sendAt: Date.now(),
         },
       ]);
-
+sendSound.current.play();
       socket.send(JSON.stringify(messagePayload));
       setSentMessage('');
     }
@@ -97,7 +103,7 @@ export const SecureMessageBox = function ({ name }: User) {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen overflow-y-hidden min-h-screen bg-gray-200">
-      <div className="border border-gray-300 rounded-lg overflow-hidden w-[700px] h-screen bg-white shadow-lg">
+      <div className="border border-gray-300 rounded-lg overflow-hidden w-[350px] sm:w-[500px] md:w-[700px] h-screen bg-white shadow-lg">
         <div className="flex items-center bg-gray-300 text-gray-600 w-full font-semibold text-lg p-4">
           <span className="text-gray-500 mr-4">
             <Avatar name={name} />
@@ -105,7 +111,7 @@ export const SecureMessageBox = function ({ name }: User) {
           {name}
         </div>
 
-        <ul className="flex flex-col bg-[url('https://media.istockphoto.com/id/1367515302/photo/anonymous-people-avatars-in-virtual-space.jpg?s=1024x1024&w=is&k=20&c=hZPBz-5yQ2neUP49-kMEsjSoMlXaW0FRsjsK3lhvFSw=')] bg-gray-100 w-[700px] h-[500px] overflow-y-scroll p-4">
+        <ul className="flex flex-col bg-[url('https://media.istockphoto.com/id/1367515302/photo/anonymous-people-avatars-in-virtual-space.jpg?s=1024x1024&w=is&k=20&c=hZPBz-5yQ2neUP49-kMEsjSoMlXaW0FRsjsK3lhvFSw=')] bg-gray-100 w-[350px] sm:w-[500px] md:w-[700px]  h-[500px] overflow-y-scroll p-4">
           {allMessages.map((msg, index) => {
             const time = new Date(msg.createdAt).toLocaleString().split(',');
             const current_time = time[1].trim();
@@ -143,10 +149,11 @@ export const SecureMessageBox = function ({ name }: User) {
               </li>
             );
           })}
+          <div ref={messagesEndRef}/>
         </ul>
 
         <form
-          className="flex w-[700px] h-[10px] border-t p-3 bg-white"
+          className="flex w-[350px] sm:w-[500px] md:w-[700px] h-[10px] border-t p-3 bg-white"
           onSubmit={handleSendMessage}
         >
           <input

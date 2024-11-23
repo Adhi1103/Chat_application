@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState,useRef, useEffect } from 'react';
 import axios from 'axios';
 import { BACKEND_URL } from '../config';
 import { useReceivedMessage, useSentMessage } from '../hooks';
@@ -23,9 +23,13 @@ export const MessageBox = function ({ name }: User) {
   const { received_message } = useReceivedMessage({ name });
   const [allMessages, setAllMessages] = useState<Message[]>([]);
   const [sentMessage, setSentMessage] = useState<string>(''); // Input message
-  
+  const sendSound = useRef(new Audio('/sounds/message-tone.mp3'));
+  const receiveSound = useRef(new Audio('/sounds/message-tone.mp3'));
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   var user = localStorage.getItem("username");
-
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [allMessages]);
   // Combine sent and received messages, and sort by createdAt
   useEffect(() => {
     const mergedMessages = [...sent_message, ...received_message].sort(
@@ -56,7 +60,7 @@ if(data.senderName===name){
     ...prevMessages,
     { senderName:name,sendTo:user,content: data.content, createdAt: new Date().toISOString() }
   ]);
-
+receiveSound.current.play();
 }
  
      
@@ -92,6 +96,7 @@ if(data.senderName===name){
         ...prevMessages,
         {senderName:user,sendTo:name, content: sentMessage, createdAt: new Date().toISOString() }
       ]);
+      sendSound.current.play();
       const space_time=new Date().toISOString();
       console.log(space_time);  // 2024-10-22T16:12:26.221Z
  //console.log(allMessages[allMessages.length-1]);
@@ -129,7 +134,7 @@ console.log(response)
     <div className="flex flex-col items-center justify-center h-screen overflow-y-hidden   min-h-screen bg-gray-200">
       
     
-      <div className="border border-gray-300 rounded-lg overflow-hidden w-[700px]  h-screen bg-white shadow-lg">
+      <div className="border border-gray-300 rounded-lg overflow-hidden w-[350px] sm:w-[500px] md:w-[700px]  h-screen bg-white shadow-lg">
         <div className="flex items-center bg-gray-300 text-gray-600 w-full  font-semibold text-lg p-4">
           <span className="text-gray-500 mr-4">
        <Avatar name={name}></Avatar>
@@ -138,7 +143,7 @@ console.log(response)
         </div>
 
       
-<ul className="flex flex-col bg-[url('https://media.istockphoto.com/id/1367515302/photo/anonymous-people-avatars-in-virtual-space.jpg?s=1024x1024&w=is&k=20&c=hZPBz-5yQ2neUP49-kMEsjSoMlXaW0FRsjsK3lhvFSw=')] bg-gray-100 w-[700px] h-[500px] overflow-y-scroll p-4">
+<ul className="flex flex-col bg-[url('https://media.istockphoto.com/id/1367515302/photo/anonymous-people-avatars-in-virtual-space.jpg?s=1024x1024&w=is&k=20&c=hZPBz-5yQ2neUP49-kMEsjSoMlXaW0FRsjsK3lhvFSw=')] bg-gray-100 w-[350px] sm:w-[500px] md:w-[700px] h-[500px] overflow-y-scroll p-4">
   {loading1  ? (
     <MessageSkeleton /> // Show skeleton while loading
   ) : (
@@ -175,11 +180,12 @@ console.log(response)
       );
     })
   )}
+     <div ref={messagesEndRef} />
 </ul>
 
 
         <form
-          className="flex   w-[700px] h-[10px] border-t p-3 bg-white"
+          className="flex   w-[350px] sm:w-[500px] md:w-[700px] h-[10px] border-t p-3 bg-white"
           onSubmit={handleSendMessage}
         >
           <input
