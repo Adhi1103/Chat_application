@@ -12,14 +12,14 @@ dotenv.config();
 
 const app = express();
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://chat-application-k64c-eyrh7qelc-adarsh7rajs-projects.vercel.app"); // Frontend origin
+    res.header("Access-Control-Allow-Origin", "https://chat-application-k64c-ioc7zvwza-adarsh7rajs-projects.vercel.app/signin"); // Frontend origin
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
     next();
 })
 
 app.use(cors({
-    origin: "https://chat-application-k64c-eyrh7qelc-adarsh7rajs-projects.vercel.app", // Replace with your frontend's URL
+    origin: "https://chat-application-k64c-ioc7zvwza-adarsh7rajs-projects.vercel.app", // Replace with your frontend's URL
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type,Authorization",
 credentials:true
