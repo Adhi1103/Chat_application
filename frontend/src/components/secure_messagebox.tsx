@@ -10,21 +10,23 @@ interface Message {
   createdAt: Date | string;
   senderName: string | null;
   sendTo: string | null;
-  sendAt:number
+  sendAt: number;
 }
 
 export const SecureMessageBox = function ({ name }: User) {
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const [allMessages, setAllMessages] = useState<Message[]>([]);
   const [sentMessage, setSentMessage] = useState<string>(''); // Input message
+  const [currentTime, setCurrentTime] = useState<number>(Date.now()); // State for tracking time
   const user = localStorage.getItem('username'); // Current user
- 
-  
-  
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 1000);
 
-
-
+    return () => clearInterval(timer); // Clean up interval on unmount
+  }, []);
 
   useEffect(() => {
     const ws = new WebSocket('wss://chat-application-2-jzm0.onrender.com');
@@ -45,10 +47,9 @@ export const SecureMessageBox = function ({ name }: User) {
             sendTo: user,
             content: data.content,
             createdAt: new Date().toISOString(),
-            sendAt:Date.now()
+            sendAt: Date.now(),
           },
         ]);
-      
       }
     };
 
@@ -60,7 +61,6 @@ export const SecureMessageBox = function ({ name }: User) {
       console.log('WebSocket connection closed');
     };
 
-    // Clean up WebSocket connection on component unmount
     return () => {
       ws.close();
     };
@@ -76,7 +76,7 @@ export const SecureMessageBox = function ({ name }: User) {
         username: user,
         content: sentMessage,
         createdAt: new Date().toISOString(),
-        sendAt:Date.now()
+        sendAt: Date.now(),
       };
 
       setAllMessages((prevMessages) => [
@@ -86,10 +86,10 @@ export const SecureMessageBox = function ({ name }: User) {
           sendTo: name,
           content: sentMessage,
           createdAt: new Date().toISOString(),
-          sendAt:Date.now()
+          sendAt: Date.now(),
         },
       ]);
-      
+
       socket.send(JSON.stringify(messagePayload));
       setSentMessage('');
     }
@@ -112,9 +112,9 @@ export const SecureMessageBox = function ({ name }: User) {
             const time_array = current_time.split(':');
             let hour = parseInt(time_array[0], 10);
             const minutes = time_array[1];
-            
+
             let period = 'AM';
-          
+
             if (hour >= 12) {
               period = 'PM';
               if (hour > 12) hour -= 12;
@@ -130,9 +130,13 @@ export const SecureMessageBox = function ({ name }: User) {
                     ? 'self-end bg-green-600 text-black rounded-tr-lg rounded-bl-lg'
                     : 'self-start bg-gray-400 rounded-tl-lg rounded-br-lg'
                 } px-3 py-1 my-2 max-w-xs shadow-md`}
-          
-              >{Date.now()-msg.sendAt>=60000?<p className='text-lg'>This message is deleted</p>:<p className="text-lg">{msg.content}</p>}
-                
+              >
+                {currentTime - msg.sendAt >= 60000 ? (
+                  <p className="text-lg text-white">This message is deleted</p>
+                ) : (
+                  <p className="text-lg">{msg.content}</p>
+                )}
+
                 <span className="block text-xs text-gray-700 mt-2 italic">
                   {`${hour}:${minutes} ${period}`}
                 </span>
