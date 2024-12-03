@@ -1,5 +1,5 @@
 import {  MouseEvent } from "react";
-
+// CAN BE USED ANYWHERE
 
 interface Button_type{
     name:string,
