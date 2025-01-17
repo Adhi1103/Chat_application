@@ -41,8 +41,9 @@ export const MessageBox = function ({ name }: User) {
   }, [sent_message, received_message]);
 
   useEffect(() => {
+ 
 
-    const ws = new WebSocket("wss://chat-application-2-jzm0.onrender.com");
+    const ws = new WebSocket("wss://chat-application-qj8h.vercel.app");
 
     ws.onopen = () => {
      

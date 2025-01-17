@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 })
 
 app.use(cors({
-    origin: "https://chat-application-k64c.vercel.app", // Replace with your frontend's URL
+    origin: "https://chat-application-k64c.vercel.app", 
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type,Authorization",
 credentials:true
@@ -33,9 +33,7 @@ app.get("/",function(req:Request,res:Response){
     res.json({message:"Hello"});
 });
 //new route added 
-app.get("/api/v1/user/signin", function(req:Request,res:Response){
-    res.json({message:"hello"});
-})
+
 app.post('/api/v1/user/signup', async  function(req: Request, res: Response) {
   const prisma = new PrismaClient();
   
@@ -186,6 +184,7 @@ try{
     const messages=await prisma.message.findMany({where:{senderName:name,sendTo:username},select:{content:true,senderName:true,sendTo:true,createdAt:true}});
     
     if(messages){
+        
         res.json({messages:messages});
     }
     else{
@@ -247,7 +246,7 @@ app.delete("/api/v1/user/messages",user_check,async function(req:Request,res:Res
     }
 })
 const Server=app.listen(port, () => {
-  console.log(`Server is running on 3000`);
+  console.log(`Server is running on: ${port}`);
 });
 
 

@@ -71,12 +71,3 @@ export const useReceivedMessage=function({name}:Username){
     return {loading2,received_message}
 }
 
-export const useTesting=function(){ 
-    const [data,setData]=useState("");
-    useEffect(function(){
-axios.get(`${BACKEND_URL}/api/user/signin`).then(function(value){
-setData(value.data);
-})
-    },[])
-    return {data}
-}
