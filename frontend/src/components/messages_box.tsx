@@ -43,7 +43,7 @@ export const MessageBox = function ({ name }: User) {
   useEffect(() => {
  
 
-    const ws = new WebSocket("wss://chat-application-qj8h.vercel.app");
+    const ws = new WebSocket("wss://chat-application-muxl.vercel.app");
 
     ws.onopen = () => {
      
