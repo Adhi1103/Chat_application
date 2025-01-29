@@ -1,19 +1,22 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "dist/*.js",   
-        "use": "@vercel/node" 
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/index.ts",  
+      "use": "@vercel/node",
+      "config": {
+        "maxLambdaSize": "50mb"  
       }
-    ],
-    "routes": [
-      {
-        "src": "/(.*)",  
-        "dest": "/dist/index.js"
-      }
-    ],
-    "env": {
-      "CORS_ORIGIN": "https://chat-application-k64c.vercel.app"  
     }
-  }
-  
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/dist/index.js"
+    }
+  ],
+  "env": {
+    "CORS_ORIGIN": "https://chat-application-k64c.vercel.app"
+  },
+  "postbuild": "prisma generate"  
+}
