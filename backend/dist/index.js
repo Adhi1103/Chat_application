@@ -20,7 +20,7 @@ app.use((req, res, next) => {
     next();
 });
 app.use((0, cors_1.default)({
-    origin: "https://chat-application-k64c.vercel.app", // Replace with your frontend's URL
+    origin: "https://chat-application-k64c.vercel.app",
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type,Authorization",
     credentials: true
@@ -32,9 +32,6 @@ app.get("/", function (req, res) {
     res.json({ message: "Hello" });
 });
 //new route added 
-app.get("/api/v1/user/signin", function (req, res) {
-    res.json({ message: "hello" });
-});
 app.post('/api/v1/user/signup', async function (req, res) {
     const prisma = new client_1.PrismaClient();
     const { username, password, email } = req.body;
@@ -198,7 +195,7 @@ app.delete("/api/v1/user/messages", middleware_1.user_check, async function (req
     }
 });
 const Server = app.listen(port, () => {
-    console.log(`Server is running on 3000`);
+    console.log(`Server is running on: ${port}`);
 });
 // Create WebSocket server
 const wss = new ws_1.WebSocket.Server({ server: Server });
