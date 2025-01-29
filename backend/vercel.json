@@ -17,6 +17,6 @@
   ],
   "env": {
     "CORS_ORIGIN": "https://chat-application-k64c.vercel.app"
-  },
-  "postbuild": "prisma generate"  
+  }
+
 }
