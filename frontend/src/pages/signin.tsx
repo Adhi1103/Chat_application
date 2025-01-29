@@ -6,10 +6,8 @@ import { Button } from "../components/button";
 //import axios from 'axios';
 import { BACKEND_URL } from "../config";
 
-interface SigninProps {
-    onLogin: () => void; // Define the type for the onLogin function
-  }
-export const Signin = function({onLogin}:SigninProps) {
+
+export const Signin = function() {
     const navigate = useNavigate();
     const [post_inputs, setPost] = useState<Signin_type>({ password: "", email: "" });
     const [error, setError] = useState<string | null>(null);
@@ -47,7 +45,7 @@ export const Signin = function({onLogin}:SigninProps) {
                     localStorage.setItem("JWT", token);
                     localStorage.setItem("username", username);
                     alert("Signed in Successfully");
-                    onLogin();
+      
                     navigate("/friends");
                 } else {
                     alert(data.message);

@@ -6,10 +6,8 @@ import { Button } from "../components/button.tsx";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
-interface SignupProps{
-    onSignup:()=>void
-}
-export const Signup = function ({onSignup}:SignupProps) {
+
+export const Signup = function () {
     const navigate = useNavigate();
     const [user_inputs, setUser] = useState<Signup_type>({ password: "", email: "", username: "" });
     const [error, setError] = useState<string | null>(null);
@@ -46,7 +44,7 @@ export const Signup = function ({onSignup}:SignupProps) {
                 localStorage.setItem("JWT", token);
                 localStorage.setItem("username", username);
                 alert("Signup Successful");
-                onSignup();
+
                 navigate("/friends");
             }
 

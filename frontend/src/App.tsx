@@ -9,26 +9,29 @@ import LandingPage from './pages/landing.tsx';
 import { SecureMessage } from './pages/SecureMessage.tsx';
 import { UserDetail } from './pages/user_detail.tsx';
 function App() {
-  // State to manage authentication status
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
  
-  // Check for token on initial load and set the authentication status
+  
   useEffect(() => {
     const token = localStorage.getItem("JWT");
     setIsAuthenticated(!!token);
   }, []);
 
-   const  handleLogin = () => {
-    const token = localStorage.getItem("JWT");
-    setIsAuthenticated(!!token); // Update auth state after login
-  };
+  //  const  handleLogin = () => {
+  //   const token = localStorage.getItem("JWT");
+  //   setIsAuthenticated(!!token); // Update auth state after login
+  // };
 
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public Routes */}
-        <Route path="/signup" element={<Signup onSignup={handleLogin} />} />
-        <Route path="/signin" element={<Signin onLogin={handleLogin} />} />
+       <Route
+          path="/"
+          element={isAuthenticated ? <Navigate to={"/friends"}/> : <LandingPage />}
+        />
+        <Route path="/signup" element={<Signup/>} />
+        <Route path="/signin" element={<Signin/>} />
 
         {/* Protected Routes */}
         <Route
@@ -45,10 +48,7 @@ function App() {
         />
 <Route path="/message/private/:username" element={isAuthenticated? <SecureMessage/>:<LandingPage/>}/>
         {/* Landing Page Route */}
-        <Route
-          path="/"
-          element={isAuthenticated ? <Navigate to={"/friends"}/> : <LandingPage />}
-        />
+      
         <Route path="/profile/:username" element={isAuthenticated?<UserDetail/>:<LandingPage/>} />
         <Route path="/landing" element={<LandingPage/>}></Route>
         
